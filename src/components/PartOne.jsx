@@ -98,9 +98,9 @@ const PartOne = () => {
     <div className="min-h-screen bg-gray-50 p-6">
       <div className="max-w-4xl mx-auto">
         <div className="flex justify-between items-center mb-6">
-          <h1 className="text-2xl font-bold text-gray-800">Part One - Topic: 123/data</h1>
+          <h1 className="text-2xl font-bold text-gray-800">Topic - project/maintenance/status</h1>
           <button 
-            className="px-4 py-2 bg-red-500 text-white rounded-lg shadow-md hover:bg-red-600 transition"
+            className="px-4 py-2 bg-red-500 text-white rounded-xl shadow-md hover:bg-red-600 transition"
             onClick={handleReset}
           >
             Reset

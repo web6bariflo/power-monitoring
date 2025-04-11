@@ -9,7 +9,7 @@ export const MqttProvider = ({ children }) => {
   const [data, setData] = useState(() => {
     return JSON.parse(localStorage.getItem("mqttData")) || {
       "project/maintenance/status": [],
-      "pump/alerts": [],
+      "project/maintenance/test": [],
     };
   });
 
@@ -26,7 +26,7 @@ export const MqttProvider = ({ children }) => {
 
     mqttClient.on("connect", () => {
       console.log("✅ Connected to MQTT Broker");
-      mqttClient.subscribe(["project/maintenance/status", "pump/alerts"]);
+      mqttClient.subscribe(["project/maintenance/status", "project/maintenance/test"]);
     });
 
     mqttClient.on("message", (topic, message) => {

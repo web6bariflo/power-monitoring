@@ -3,10 +3,10 @@ import { useMqtt } from "../MqttContext";
 
 const PartTwo = () => {
   const { data, clearTopicData } = useMqtt();
-  const messages = data["pump/alerts"] || [];
+  const messages = data[""] || [];
 
   const handleReset = () => {
-    clearTopicData("pump/alerts");
+    clearTopicData("project/maintenance/test");
   };
 
   return (
@@ -14,13 +14,13 @@ const PartTwo = () => {
       <div className="w-full max-w-2xl border-4 border-blue-500 rounded-lg shadow-lg bg-white p-6 relative">
         <button
           onClick={handleReset}
-          className="absolute top-4 right-4 bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
+          className="absolute top-4 right-4 bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-xl"
         >
           Reset
         </button>
        
         <h1 className="text-2xl font-bold mb-4 text-center text-blue-600">
-          MQTT Data Viewer - Topic:123
+          Topic - project/maintenance/test
         </h1>
        
         <div className="p-4 border border-gray-300 rounded bg-gray-50">
