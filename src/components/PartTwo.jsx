@@ -4,7 +4,8 @@ import { useMqtt } from "../MqttContext";
 const PartTwo = () => {
   const { data, clearTopicData } = useMqtt();
   const messages = data["project/maintenance/test"] || [];
-  console.log(messages[1].value);
+  console.log(messages);
+  
 
   const handleReset = () => {
     clearTopicData("project/maintenance/test");
