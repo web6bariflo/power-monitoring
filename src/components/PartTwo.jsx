@@ -15,7 +15,7 @@ const PartTwo = () => {
       <div className="w-full max-w-2xl border-4 border-blue-500 rounded-lg shadow-lg bg-white p-6 relative">
         <button
           onClick={handleReset}
-          className="absolute top-4 right-4 bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
+          className="absolute top-4 right-4 bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-xl"
         >
           Reset
         </button>

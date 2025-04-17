@@ -1,11 +1,14 @@
 import React from "react";
 import { useMqtt } from "../MqttContext";
+import { useState } from "react";
 
 const StartTest = () => {
   const { publishMessage } = useMqtt();
+  const [showMessage, setShowMessage] = useState(false);
 
   const handleClick = () => {
     publishMessage("project/maintenance/command", "RUN_SELFTEST");
+    setShowMessage(true);
   };
 
   return (
