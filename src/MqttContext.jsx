@@ -6,10 +6,11 @@ const MqttContext = createContext();
 
 export const MqttProvider = ({ children }) => {
   const [client, setClient] = useState(null);
+  const [connectionStatus, setConnectionStatus] = useState("disconnected"); // Track connection state
   const [data, setData] = useState(() => {
     return JSON.parse(localStorage.getItem("mqttData")) || {
       "project/maintenance/status": [],
-      "pump/alerts": [],
+      "project/maintenance/test": [],
     };
   });
 
@@ -21,12 +22,34 @@ export const MqttProvider = ({ children }) => {
       path: "/mqtt",
       username: "mqttuser",
       password: "Bfl@2025",
-      clientId: "project/maintenance/command", // publisher ID
+      clientId: `mqtt_${Math.random().toString(16).slice(3)}`, // Unique client ID
+      reconnectPeriod: 5000 // Auto-reconnect every 5s if disconnected
     });
 
+    // Connection status handler (only logs on change)
+    const handleStatusChange = (newStatus) => {
+      if (connectionStatus !== newStatus) {
+        setConnectionStatus(newStatus);
+        console.log(`MQTT: ${newStatus}`);
+      }
+    };
+
     mqttClient.on("connect", () => {
-      console.log("✅ Connected to MQTT Broker");
-      mqttClient.subscribe(["project/maintenance/status", "pump/alerts"]);
+      handleStatusChange("connected");
+      mqttClient.subscribe(["project/maintenance/status", "project/maintenance/test"]);
+    });
+
+    mqttClient.on("reconnect", () => {
+      handleStatusChange("reconnecting");
+    });
+
+    mqttClient.on("offline", () => {
+      handleStatusChange("disconnected");
+    });
+
+    mqttClient.on("error", (err) => {
+      console.error("MQTT error:", err);
+      handleStatusChange("error");
     });
 
     mqttClient.on("message", (topic, message) => {
@@ -35,21 +58,24 @@ export const MqttProvider = ({ children }) => {
         value: message.toString(),
       };
 
+      console.log(`${topic} : ${message}`);
+      
+    
       setData((prevData) => {
         const updatedData = {
           ...prevData,
-          [topic]: [...(prevData[topic] || []), newMessage].slice(-300),
+          [topic]: [...(prevData[topic] || []), newMessage].slice(-7),
         };
         localStorage.setItem("mqttData", JSON.stringify(updatedData));
         return updatedData;
       });
-      console.log(`📩 Message received on ${topic}:`, message.toString());
     });
 
     setClient(mqttClient);
 
     return () => {
       mqttClient.end();
+      handleStatusChange("disconnected");
     };
   }, []);
 
@@ -74,12 +100,10 @@ const clearTopicData = (topic) => {
   });
 };
 
-
   return (
-    <MqttContext.Provider value={{ data, publishMessage, clearTopicData }}>
-    {children}
-  </MqttContext.Provider>
-  
+    <MqttContext.Provider value={{ data, publishMessage, clearTopicData, connectionStatus }}>
+      {children}
+    </MqttContext.Provider>
   );
 };
 

@@ -3,10 +3,11 @@ import { useMqtt } from "../MqttContext";
 
 const PartTwo = () => {
   const { data, clearTopicData } = useMqtt();
-  const messages = data["pump/alerts"] || [];
+  const messages = data["project/maintenance/test"] || [];
+  console.log(messages[1].value);
 
   const handleReset = () => {
-    clearTopicData("pump/alerts");
+    clearTopicData("project/maintenance/test");
   };
 
   return (
@@ -18,11 +19,11 @@ const PartTwo = () => {
         >
           Reset
         </button>
-       
+
         <h1 className="text-2xl font-bold mb-4 text-center text-blue-600">
-          MQTT Data Viewer - Topic:123
+          Topic: project/maintenance/test
         </h1>
-       
+
         <div className="p-4 border border-gray-300 rounded bg-gray-50">
           {messages.length === 0 ? (
             <p className="text-gray-500 text-center">Waiting for data...</p>
@@ -33,15 +34,19 @@ const PartTwo = () => {
               </div>
               <ul className="pl-5 max-h-[70vh] overflow-y-auto">
                 {messages.map((msg, index) => (
-                  <li key={index} className="mb-2 p-2 bg-blue-100 border border-blue-300 rounded">
+                  <li
+                    key={index}
+                    className="mb-2 p-2 bg-blue-100 border border-blue-300 rounded"
+                  >
                     <div className="text-xs text-gray-500 mb-1">
                       Message #{index + 1} - {new Date(msg.time).toLocaleTimeString()}
                     </div>
-                    <div className="font-mono text-sm break-all">
-                      {JSON.stringify(msg.value, null, 2)}
-                    </div>
+                    <pre className="font-mono text-sm whitespace-pre-wrap">
+                      {msg.value}
+                    </pre>
                   </li>
                 ))}
+
               </ul>
             </div>
           )}
