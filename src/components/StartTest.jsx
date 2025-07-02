@@ -7,7 +7,7 @@ const StartTest = () => {
   const [showMessage, setShowMessage] = useState(false);
 
   const handleClick = () => {
-    publishMessage("project/maintenance/command", "RUN_SELFTEST");
+    publishMessage("project/BFL_PomonA001/maintenance/command", "RUN_SELFTEST");
     setShowMessage(true);
   };
 

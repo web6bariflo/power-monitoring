@@ -27,7 +27,7 @@ const PartOne = () => {
 
   const { data, clearTopicData } = useMqtt();
   
-  const messages = data["project/maintenance/status"] || [];
+  const messages = data["project/BFL_PomonA001/maintenance/status"] || [];
   console.log(messages);
   const latestMessage = messages.length > 0 ? messages[messages.length - 1].value : null;
   console.log(latestMessage);
@@ -93,7 +93,7 @@ const PartOne = () => {
   const sensorData = parseMessage(latestMessage);
 
   const handleReset = () => {
-    clearTopicData("project/maintenance/status");
+    clearTopicData("project/BFL_PomonA001/maintenance/status");
   };
 
   return (

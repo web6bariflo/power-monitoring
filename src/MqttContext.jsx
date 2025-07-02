@@ -9,8 +9,8 @@ export const MqttProvider = ({ children }) => {
   const [connectionStatus, setConnectionStatus] = useState("disconnected"); // Track connection state
   const [data, setData] = useState(() => {
     return JSON.parse(localStorage.getItem("mqttData")) || {
-      "project/maintenance/status": [],
-      "project/maintenance/test": [],
+      "project/BFL_PomonA001/maintenance/status": [],
+      "project/BFL_PomonA001/maintenance/test": [],
     };
   });
 
@@ -36,7 +36,7 @@ export const MqttProvider = ({ children }) => {
 
     mqttClient.on("connect", () => {
       handleStatusChange("connected");
-      mqttClient.subscribe(["project/maintenance/status", "project/maintenance/test"]);
+      mqttClient.subscribe(["project/BFL_PomonA001/maintenance/status", "project/BFL_PomonA001/maintenance/test"]);
     });
 
     mqttClient.on("reconnect", () => {

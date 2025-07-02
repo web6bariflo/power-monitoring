@@ -3,12 +3,12 @@ import { useMqtt } from "../MqttContext";
 
 const PartTwo = () => {
   const { data, clearTopicData } = useMqtt();
-  const messages = data["project/maintenance/test"] || [];
+  const messages = data["project/BFL_PomonA001/maintenance/test"] || [];
   console.log(messages);
   
 
   const handleReset = () => {
-    clearTopicData("project/maintenance/test");
+    clearTopicData("project/BFL_PomonA001/maintenance/test");
   };
 
   return (
